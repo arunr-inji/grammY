@@ -43,10 +43,11 @@ jobs:
                   git add README.md
                   git commit -m "docs: update contributor information"
                   git push -f origin auto/update-contributors
+                  printf 'This PR updates contributor information in `.all-contributorsrc` and regenerates the README file.%s' "${{ steps.check.outputs.details }}" > /tmp/pr-body.txt
                   gh pr create \
                     --title "docs: update contributor information" \
-                    --body "This PR updates contributor information in \`.all-contributorsrc\` and regenerates the README file.${{ steps.check.outputs.details }}" \
+                    --body-file /tmp/pr-body.txt \
                     --label "dependencies" || \
                   gh pr edit auto/update-contributors \
                     --title "docs: update contributor information" \
-                    --body "This PR updates contributor information in \`.all-contributorsrc\` and regenerates the README file.${{ steps.check.outputs.details }}"
+                    --body-file /tmp/pr-body.txt
